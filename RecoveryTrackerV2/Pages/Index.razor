@@ -1,0 +1,149 @@
+﻿@page "/"
+
+<PageTitle>DaysSince</PageTitle>
+<br />
+<MudPaper Class="pa-10 ma-2 cyan darken4 text-white" Elevation="3">
+    <MudText Typo="Typo.h4" Align="Align.Center">Days since major outage: @daysSinceLastMajorOutage</MudText>
+</MudPaper>
+<br />
+
+    <MudContainer>
+        @if (anyIssues == false)
+        {
+        <MudAlert Severity="Severity.Success" Variant="Variant.Filled" Dense="true">All systems are up and running!</MudAlert>
+        <br />
+        <MudSimpleTable Hover="true" FixedHeader="true" Striped="true">
+            <thead>
+                <tr>
+                    <th><b>System</b></th>
+                    <th><b>Status</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>F&O</td>
+                                <td>Running</td>
+                    </tr>
+                    <tr>
+                        <td>CE</td>
+                                <td>Running</td>
+                    </tr>
+                    <tr>
+                        <td>BizTalk</td>
+                                <td>Running</td>
+                    </tr>
+                    <tr>
+                        <td>ECM</td>
+                                <td>Running</td>
+                    </tr>
+                    <tr>
+                        <td>SPO</td>
+                                <td>Running</td>
+                    </tr>
+            </tbody>
+            </MudSimpleTable>
+        }
+        else if (anyIssues == true)
+        {        
+            <MudSimpleTable Hover="true" FixedHeader="true" Striped="true">
+            <thead>
+                <tr>
+                    <th><b>System</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>Issue reported</b></th>
+                    <th><b>Reported issues</b></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td>F&O</td>
+                            @if (AppState.ERPState == "Down")
+                            { 
+                                <td><MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true">Down</MudAlert></td>
+                            }
+                            else if(AppState.ERPState == "Degraded")
+                            {
+                                <td><MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">Degraded</MudAlert></td>
+                            }
+                            else
+                            {
+                                <td><MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Dense="true">Running</MudAlert></td>
+                            }
+                        <td>@{var timeStateERP = @AppState.ERPDate.HasValue ? @AppState.ERPDate.Value.ToString("dd/MM/yyy") : "";} @timeStateERP</td>
+                        <td>@AppState.ERPIssues</td>
+                    </tr>
+                    <tr>
+                        <td>CE</td>
+                            @if (AppState.CEState == "Down")
+                            { 
+                                <td><MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true">Down</MudAlert></td>
+                            }
+                            else if(AppState.CEState == "Degraded")
+                            {
+                                <td><MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">Degraded</MudAlert></td>
+                            }
+                            else
+                            {
+                                <td><MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Dense="true">Running</MudAlert></td>
+                            }
+                        <td>@{var timeStateCE = @AppState.CEDate.HasValue ? @AppState.CEDate.Value.ToString("dd/MM/yyy") : "";} @timeStateCE</td>
+                        <td>@AppState.CEIssues</td>
+                    </tr>
+                    <tr>
+                        <td>BizTalk</td>
+                            @if (AppState.BizState == "Down")
+                            { 
+                                <td><MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true">Down</MudAlert></td>
+                            }
+                            else if(AppState.BizState == "Degraded")
+                            {
+                                <td><MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">Degraded</MudAlert></td>
+                            }
+                            else
+                            {
+                                <td><MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Dense="true">Running</MudAlert></td>
+                            }
+                        <td>@{var timeStateBiz = @AppState.BizDate.HasValue ? @AppState.BizDate.Value.ToString("dd/MM/yyy") : "";} @timeStateBiz</td>
+                        <td>@AppState.BizIssues</td>
+                    </tr>
+                    <tr>
+                        <td>ECM</td>
+                            @if (AppState.ECMState == "Down")
+                            { 
+                                <td><MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true">Down</MudAlert></td>
+                            }
+                            else if(AppState.ECMState == "Degraded")
+                            {
+                                <td><MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">Degraded</MudAlert></td>
+                            }
+                            else
+                            {
+                                <td><MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Dense="true">Running</MudAlert></td>
+                            }
+                        <td>@{var timeStateECM = @AppState.ECMDate.HasValue ? @AppState.ECMDate.Value.ToString("dd/MM/yyy") : "";} @timeStateECM</td>
+                        <td>@AppState.ECMIssues</td>
+                    </tr>
+                    <tr>
+                        <td>SPO</td>
+                            @if (AppState.SPOState == "Down")
+                            { 
+                                <td><MudAlert Severity="Severity.Error" Variant="Variant.Outlined" Dense="true">Down</MudAlert></td>
+                            }
+                            else if(AppState.SPOState == "Degraded")
+                            {
+                                <td><MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true">Degraded</MudAlert></td>
+                            }
+                            else
+                            {
+                                <td><MudAlert Severity="Severity.Success" Variant="Variant.Outlined" Dense="true">Running</MudAlert></td>
+                            }
+                        <td>@{var timeStateSPO = @AppState.SPODate.HasValue ? @AppState.SPODate.Value.ToString("dd/MM/yyy") : "";} @timeStateSPO</td>
+                        <td>@AppState.SPOIssues</td>
+                    </tr>
+            </tbody>
+        </MudSimpleTable>
+        }
+    </MudContainer>
+
+
+

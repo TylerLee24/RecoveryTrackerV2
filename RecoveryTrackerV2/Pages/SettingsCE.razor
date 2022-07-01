@@ -1,0 +1,34 @@
+﻿@page "/settingsce"
+
+<PageTitle>Settings - CE</PageTitle>
+
+
+<MudText Typo="Typo.h4">CE general settings</MudText>
+<br />
+
+<MudContainer Fixed="true">
+    <MudSelect T="string" Label="Application state" AnchorOrigin="Origin.BottomCenter" @bind-Value="AppState.CEState" OnClose="CheckState">
+        <MudSelectItem Value="@("Running")"/>
+        <MudSelectItem Value="@("Degraded")" />
+        <MudSelectItem Value="@("Down")" />
+    </MudSelect>
+</MudContainer>
+<br />
+
+@if (AppState.CEState != "Running")
+{
+<MudContainer Fixed="true">
+    <MudDatePicker Label="Date CE issue was identified" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" Editable="true" @bind-Date="AppState.CEDate" Placeholder="Select Date" />
+    <br />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetDate">Reset</MudButton>
+</MudContainer>
+<br />   
+
+<MudContainer Fixed="true">
+    <MudTextField @bind-Value="AppState.CEIssues" Label="Issue" Variant="Variant.Text" Required="true" RequiredError="If the date of last issue is filled in, issue is mandatory"></MudTextField>
+    <br />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetIssue">Clear</MudButton>
+    <br />
+</MudContainer>
+}
+
