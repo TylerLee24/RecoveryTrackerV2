@@ -19,21 +19,22 @@ namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsECM
     {
+        [Inject] AppState appState { get; set; }
         protected override void OnInitialized()
         {
             CheckState();
         }
         public void ResetDate()
         {
-            AppState.ECMDate = null;
+            appState.ECMDate = null;
         }
         public void ResetIssue()
         {
-            AppState.ECMIssues = null;
+            appState.ECMIssues = null;
         }
         public void CheckState()
         {
-            if (AppState.ECMState == "Running")
+            if (appState.ECMState == "Running")
             {
                 ResetDate();
                 ResetIssue();

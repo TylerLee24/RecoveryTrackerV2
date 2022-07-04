@@ -19,21 +19,22 @@ namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsCE
     {
+        [Inject] AppState appState { get; set; }
         protected override void OnInitialized()
         {
             CheckState();
         }
         public void ResetDate()
         {
-            AppState.CEDate = null;
+            appState.CEDate = null;
         }
         public void ResetIssue()
         {
-            AppState.CEIssues = null;
+            appState.CEIssues = null;
         }
         public void CheckState()
         {
-            if (AppState.CEState == "Running")
+            if (appState.CEState == "Running")
             {
                 ResetDate();
                 ResetIssue();

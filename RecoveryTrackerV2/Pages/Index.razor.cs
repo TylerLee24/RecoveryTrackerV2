@@ -1,43 +1,39 @@
+using Microsoft.AspNetCore.Components;
+
 namespace RecoveryTrackerV2.Pages
 {
     public partial class Index
     {
+        [Inject] AppState appState { get; set; }
+
         public DateTime dateToday = DateTime.Today;
-        public DateTime dateSinceMajorDowntime = new DateTime(2022, 06, 18);
-        public int daysSinceLastMajorOutage = 0;
+        public DateTime? dateSinceMajorDowntime;
+        public double daysSinceLastMajorOutage = 0;
+        public double hoursSinceLastMajorOutage = 0;
+        public double minutesSinceLastMajorOutage = 0;
+        public double secondsSinceLastMajorOutage = 0;
         public bool anyIssues = false;
+        private Timer? timer;
+        public string timeMessage;
 
-        protected override async Task<Task> OnInitializedAsync()
+        public TimeSpan? span;
+
+        protected override async Task OnInitializedAsync()
         {
-            SettingsBiz settingsBiz = new SettingsBiz();
-            SettingsCE settingsCE = new SettingsCE();
-            SettingsECM settingsECM = new SettingsECM();
-            SettingsERP settingsERP = new SettingsERP();
-            SettingsSPO settingsSPO = new SettingsSPO();
-
-            settingsBiz.CheckState();
-            settingsCE.CheckState();
-            settingsECM.CheckState();
-            settingsERP.CheckState();
-            settingsSPO.CheckState();
-
-            if (!String.IsNullOrEmpty(AppState.ERPIssues) || !String.IsNullOrEmpty(AppState.CEIssues) || !String.IsNullOrEmpty(AppState.BizIssues) || !String.IsNullOrEmpty(AppState.ECMIssues) || !String.IsNullOrEmpty(AppState.SPOIssues))
+            if (!String.IsNullOrEmpty(appState.ERPIssues) || !String.IsNullOrEmpty(appState.CEIssues) || !String.IsNullOrEmpty(appState.BizIssues) || !String.IsNullOrEmpty(appState.ECMIssues) || !String.IsNullOrEmpty(appState.SPOIssues))
             {
                 anyIssues = true;
             }
 
-            base.OnInitialized();
-            var timer = new Timer((_) =>
+            dateSinceMajorDowntime = appState.LastOutage;
+
+            timer = new Timer((_) =>
             {
-                InvokeAsync(async () =>
-                {
-                    // Add your update logic here
-                    daysSinceLastMajorOutage = dateToday.Subtract((DateTime)AppState.LastOutage).Days;
-                    // Update the UI
-                    StateHasChanged();
-                });
-            }, null, 0, 1000);
-            return Task.CompletedTask;
+                span = (DateTime.Now - appState.LastOutage);
+                timeMessage = String.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
+                        span.Value.Days, span.Value.Hours, span.Value.Minutes, span.Value.Seconds);
+                StateHasChanged();
+            }, new AutoResetEvent(true), 1000, 1000);
         }
     }
 }

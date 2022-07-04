@@ -5,13 +5,13 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Class="cyan darken2" Elevation="1">
+    <MudAppBar Class="cyan darken2" Style="background-color: #033E50" Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-2">Recovery tracker</MudText>
         <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+    <MudDrawer @bind-Open="_drawerOpen" Variant="DrawerVariant.Temporary" Elevation="2">
         <NavMenu/>
     </MudDrawer>
     <MudMainContent>

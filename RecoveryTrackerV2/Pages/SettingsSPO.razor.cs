@@ -19,21 +19,22 @@ namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsSPO
     {
+        [Inject] AppState appState { get; set; }
         protected override void OnInitialized()
         {
             CheckState();
         }
         public void ResetDate()
         {
-            AppState.SPODate = null;
+            appState.SPODate = null;
         }
         public void ResetIssue()
         {
-            AppState.SPOIssues = null;
+            appState.SPOIssues = null;
         }
         public void CheckState()
         {
-            if (AppState.SPOState == "Running")
+            if (appState.SPOState == "Running")
             {
                 ResetDate();
                 ResetIssue();

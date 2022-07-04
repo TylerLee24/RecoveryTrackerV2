@@ -19,6 +19,7 @@ namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsGeneral
     {
+        [Inject] AppState appState { get; set; }
         public DateTime? dateFirstIssue { get; set; }
     }
 }

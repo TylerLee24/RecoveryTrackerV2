@@ -7,7 +7,7 @@
 <br />
 
 <MudContainer Fixed="true">
-    <MudSelect T="string" Label="Application state" AnchorOrigin="Origin.BottomCenter" @bind-Value="AppState.ECMState" OnClose="CheckState">
+    <MudSelect T="string" Label="Application state" AnchorOrigin="Origin.BottomCenter" @bind-Value="appState.ECMState" OnClose="CheckState">
         <MudSelectItem Value="@("Running")"/>
         <MudSelectItem Value="@("Degraded")" />
         <MudSelectItem Value="@("Down")" />
@@ -15,17 +15,17 @@
 </MudContainer>
 <br />
 
-@if (AppState.ECMState != "Running")
+@if (appState.ECMState != "Running")
 {
 <MudContainer Fixed="true">
-    <MudDatePicker Label="Date ECM issue was identified" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" Editable="true" @bind-Date="AppState.ECMDate" Placeholder="Select Date" />
+    <MudDatePicker Label="Date ECM issue was identified" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" Editable="true" @bind-Date="appState.ECMDate" Placeholder="Select Date" />
     <br />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetDate">Reset</MudButton>
 </MudContainer>
 <br />   
 
 <MudContainer Fixed="true">
-    <MudTextField @bind-Value="AppState.ECMIssues" Label="Issue" Variant="Variant.Text" Required="true" RequiredError="If the date of last issue is filled in, issue is mandatory"></MudTextField>
+    <MudTextField @bind-Value="appState.ECMIssues" Label="Issue" Variant="Variant.Text" Required="true" RequiredError="If the date of last issue is filled in, issue is mandatory"></MudTextField>
     <br />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetIssue">Clear</MudButton>
     <br />

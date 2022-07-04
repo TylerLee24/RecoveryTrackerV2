@@ -1,39 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using Microsoft.JSInterop;
-using RecoveryTrackerV2;
-using RecoveryTrackerV2.Shared;
 using MudBlazor;
 
 namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsBiz
     {
+        [Inject] AppState appState { get; set; }
+
+        private string _bizState;
+        public string bizState
+        {
+            get { return _bizState; }
+            set
+            {
+                _bizState = value;
+                appState.BizState = value;
+                CheckState();
+            }
+        }
+
         protected override void OnInitialized()
         {
-            CheckState();
+            bizState = appState.BizState;
         }
         public void ResetDate()
         {
-            AppState.BizDate = null;
+            appState.BizDate = null;
         }
         public void ResetIssue()
         {
-            AppState.BizIssues = null;
+            appState.BizIssues = null;
         }
-        public void CheckState()
+        public async Task CheckState()
         {
-            if (AppState.BizState == "Running")
+            await Task.Delay(500);
+            if (appState.BizState == "Running")
             {
                 ResetDate();
                 ResetIssue();

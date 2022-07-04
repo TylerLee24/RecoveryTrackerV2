@@ -7,7 +7,7 @@
 <br />
 
 <MudContainer Fixed="true">
-    <MudSelect T="string" Label="Application state" AnchorOrigin="Origin.BottomCenter" @bind-Value="AppState.BizState" OnClose="CheckState">
+    <MudSelect T="string" Label="Application state" AnchorOrigin="Origin.BottomCenter" @bind-Value="bizState">
         <MudSelectItem Value="@("Running")"/>
         <MudSelectItem Value="@("Degraded")" />
         <MudSelectItem Value="@("Down")" />
@@ -15,17 +15,19 @@
 </MudContainer>
 <br />
 
-@if (AppState.BizState != "Running")
+@if (appState.BizState != "Running")
 {
 <MudContainer Fixed="true">
-    <MudDatePicker Label="Date BizTalk issue was identified" Mask="@(new DateMask("dd/MM/yyyy"))" DateFormat="dd/MM/yyyy" Editable="true" @bind-Date="AppState.BizDate" Placeholder="Select Date" />
+    <MudDatePicker Label="Date BizTalk issue was identified" 
+        Mask="@(new DateMask("dd/MM/yyyy"))"
+        DateFormat="dd/MM/yyyy" @bind-Date="appState.BizDate" Placeholder="Select Date" />
     <br />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetDate">Reset</MudButton>
 </MudContainer>
 <br />   
 
 <MudContainer Fixed="true">
-    <MudTextField @bind-Value="AppState.BizIssues" Label="Issue" Variant="Variant.Text" Required="true" RequiredError="If the date of last issue is filled in, issue is mandatory"></MudTextField>
+    <MudTextField @bind-Value="appState.BizIssues" Label="Issue" Variant="Variant.Text" Required="true" RequiredError="If the date of last issue is filled in, issue is mandatory"></MudTextField>
     <br />
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ResetIssue">Clear</MudButton>
     <br />

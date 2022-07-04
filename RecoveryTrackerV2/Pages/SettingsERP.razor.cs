@@ -19,21 +19,22 @@ namespace RecoveryTrackerV2.Pages
 {
     public partial class SettingsERP
     {
+        [Inject] AppState appState { get; set; }
         protected override void OnInitialized()
         {
             CheckState();
         }
         public void ResetDate()
         {
-            AppState.ERPDate = null;
+            appState.ERPDate = null;
         }
         public void ResetIssue()
         {
-            AppState.ERPIssues = null;
+            appState.ERPIssues = null;
         }
         public void CheckState()
         {
-            if (AppState.ERPState == "Running")
+            if (appState.ERPState == "Running")
             {
                 ResetDate();
                 ResetIssue();
